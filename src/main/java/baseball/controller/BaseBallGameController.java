@@ -5,7 +5,9 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import baseball.model.BaseBallGame;
 import baseball.model.BaseBallNumbers;
+import baseball.model.BaseBallResult;
 import baseball.model.NumberGenerator;
 import baseball.view.InputView;
 import baseball.view.OutputView;
@@ -24,7 +26,10 @@ public class BaseBallGameController {
     public void run() {
         outputView.printStartMessage();
         BaseBallNumbers randomBaseBallNumbers = BaseBallNumbers.create(numberGenerator);
-        BaseBallNumbers baseBallNumbers = fetch(this::readBaseBallNumbers);
+        BaseBallNumbers userBaseBallNumbers = fetch(this::readBaseBallNumbers);
+        BaseBallGame baseBallGame = BaseBallGame.of(randomBaseBallNumbers);
+        BaseBallResult result = baseBallGame.play(userBaseBallNumbers);
+        outputView.printResult(result);
 
     }
 

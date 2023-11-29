@@ -35,4 +35,33 @@ public class BaseBallNumbers {
 
         return new BaseBallNumbers(baseBallNumbers);
     }
+
+    public BaseBallResult match(BaseBallNumbers userBaseBallNumbers) {
+        int strikeCount = calculateStrikeCount(userBaseBallNumbers.numbers);
+        int ballCount = calculateBallCount(userBaseBallNumbers.numbers, strikeCount);
+
+        return BaseBallResult.of(strikeCount, ballCount);
+    }
+
+    private int calculateStrikeCount(List<BaseBallNumber> numbers) {
+        return (int) numbers.stream()
+                .filter(this::equals)
+                .count();
+    }
+
+    private int calculateBallCount(List<BaseBallNumber> userBaseBallNumbers, int strikeCount) {
+        int ballCount = countBall(userBaseBallNumbers);
+
+        return ballCount - strikeCount;
+    }
+
+    private int countBall(List<BaseBallNumber> userBaseBallNumbers) {
+        return (int) userBaseBallNumbers.stream()
+                .filter(this::contains)
+                .count();
+    }
+
+    private boolean contains(BaseBallNumber userBaseBallNumber) {
+        return this.numbers.contains(userBaseBallNumber);
+    }
 }
