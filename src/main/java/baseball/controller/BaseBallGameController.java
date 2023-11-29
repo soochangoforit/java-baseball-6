@@ -1,9 +1,11 @@
 package baseball.controller;
 
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import baseball.model.BaseBallNumbers;
 import baseball.view.InputView;
 import baseball.view.OutputView;
 
@@ -18,7 +20,13 @@ public class BaseBallGameController {
 
     public void run() {
         outputView.printStartMessage();
+        BaseBallNumbers baseBallNumbers = fetch(this::readBaseBallNumbers);
 
+    }
+
+    private BaseBallNumbers readBaseBallNumbers() {
+        List<Integer> baseBallNumbers = inputView.readBaseBallNumbers();
+        return BaseBallNumbers.from(baseBallNumbers);
     }
 
     /**
