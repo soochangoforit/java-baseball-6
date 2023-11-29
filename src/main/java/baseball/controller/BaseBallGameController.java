@@ -9,6 +9,7 @@ import baseball.model.BaseBallGame;
 import baseball.model.BaseBallNumbers;
 import baseball.model.BaseBallResult;
 import baseball.model.NumberGenerator;
+import baseball.model.RestartCommand;
 import baseball.view.InputView;
 import baseball.view.OutputView;
 
@@ -25,12 +26,25 @@ public class BaseBallGameController {
 
     public void run() {
         outputView.printStartMessage();
-        BaseBallNumbers randomBaseBallNumbers = BaseBallNumbers.create(numberGenerator);
-        BaseBallNumbers userBaseBallNumbers = fetch(this::readBaseBallNumbers);
-        BaseBallGame baseBallGame = BaseBallGame.of(randomBaseBallNumbers);
-        BaseBallResult result = baseBallGame.play(userBaseBallNumbers);
-        outputView.printResult(result);
+        playingGame();
+    }
 
+    private void playingGame() {
+        BaseBallNumbers randomBaseBallNumbers = BaseBallNumbers.create(numberGenerator);
+        BaseBallGame baseBallGame = BaseBallGame.of(randomBaseBallNumbers);
+        while (baseBallGame.isInProgress()) {
+            BaseBallNumbers userBaseBallNumbers = fetch(this::readBaseBallNumbers);
+            BaseBallResult result = baseBallGame.play(userBaseBallNumbers);
+            outputView.printResult(result);
+        }
+        if (fetch(this::readRestart).isRestart()) {
+            playingGame();
+        }
+    }
+
+    private RestartCommand readRestart() {
+        int rawRestartCommand = inputView.readRestart();
+        return RestartCommand.from(rawRestartCommand);
     }
 
     private BaseBallNumbers readBaseBallNumbers() {

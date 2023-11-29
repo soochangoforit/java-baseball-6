@@ -44,9 +44,13 @@ public class BaseBallNumbers {
     }
 
     private int calculateStrikeCount(List<BaseBallNumber> numbers) {
-        return (int) numbers.stream()
-                .filter(this::equals)
-                .count();
+        int strikeCount = 0;
+        for (int i = 0; i < this.numbers.size(); i++) {
+            if (this.numbers.get(i).equals(numbers.get(i))) {
+                strikeCount++;
+            }
+        }
+        return strikeCount;
     }
 
     private int calculateBallCount(List<BaseBallNumber> userBaseBallNumbers, int strikeCount) {
@@ -63,5 +67,12 @@ public class BaseBallNumbers {
 
     private boolean contains(BaseBallNumber userBaseBallNumber) {
         return this.numbers.contains(userBaseBallNumber);
+    }
+
+    @Override
+    public String toString() {
+        return "BaseBallNumbers{" +
+                "numbers=" + numbers +
+                '}';
     }
 }

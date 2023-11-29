@@ -20,4 +20,8 @@ public class BaseBallGame {
         }
         return baseBallResult;
     }
+
+    public boolean isInProgress() {
+        return inProgress;
+    }
 }

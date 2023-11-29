@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import baseball.view.validator.BlankValidator;
 import baseball.view.validator.DigitsOnlyValidator;
+import baseball.view.validator.SingleDigitValidator;
 import camp.nextstep.edu.missionutils.Console;
 
 public class InputView {
@@ -36,16 +37,28 @@ public class InputView {
                 .collect(toList());
     }
 
+    public int readRestart() {
+        println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
+        String rawRestartCommand = readLine();
+        validateRestartCommand(rawRestartCommand);
+        return convertToInt(rawRestartCommand);
+    }
+
+    private void validateRestartCommand(String rawRestartCommand) {
+        BlankValidator.validate(rawRestartCommand);
+        SingleDigitValidator.validate(rawRestartCommand);
+    }
+
+    private void println(String message) {
+        System.out.println(message);
+    }
+
     private int convertToInt(String input) {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("숫자로 변환할 수 없는 문자입니다.");
         }
-    }
-
-    private void println(String message) {
-        System.out.println(message);
     }
 
     private void printEmptyLine() {
