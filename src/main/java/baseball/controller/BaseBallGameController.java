@@ -6,20 +6,24 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import baseball.model.BaseBallNumbers;
+import baseball.model.NumberGenerator;
 import baseball.view.InputView;
 import baseball.view.OutputView;
 
 public class BaseBallGameController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final NumberGenerator numberGenerator;
 
-    public BaseBallGameController(InputView inputView, OutputView outputView) {
+    public BaseBallGameController(InputView inputView, OutputView outputView, NumberGenerator numberGenerator) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.numberGenerator = numberGenerator;
     }
 
     public void run() {
         outputView.printStartMessage();
+        BaseBallNumbers randomBaseBallNumbers = BaseBallNumbers.create(numberGenerator);
         BaseBallNumbers baseBallNumbers = fetch(this::readBaseBallNumbers);
 
     }

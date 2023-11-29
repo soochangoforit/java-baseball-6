@@ -1,6 +1,7 @@
 package baseball.model;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public class BaseBallNumbers {
     private final List<BaseBallNumber> numbers;
@@ -17,6 +18,14 @@ public class BaseBallNumbers {
         if (numbers.stream().distinct().count() != 3) {
             throw new IllegalArgumentException("숫자는 중복되지 않아야 합니다.");
         }
+    }
+
+    public static BaseBallNumbers create(NumberGenerator numberGenerator) {
+        List<BaseBallNumber> baseBallNumbers = Stream.generate(() -> BaseBallNumber.create(numberGenerator))
+                .distinct()
+                .limit(3)
+                .toList();
+        return new BaseBallNumbers(baseBallNumbers);
     }
 
     public static BaseBallNumbers from(List<Integer> numbers) {
